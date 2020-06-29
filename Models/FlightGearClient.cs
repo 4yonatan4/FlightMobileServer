@@ -66,7 +66,6 @@ namespace FlightMobileWeb.Models
                 res = SetThrottle(command.Command.Throttle.ToString());
                 // anyway update the result of the task
                 command.Completion.SetResult(res);
-                System.Console.WriteLine("finish");
             }
         }
 
@@ -74,6 +73,7 @@ namespace FlightMobileWeb.Models
         {
             string toSend = "set " + "/controls/engines/current-engine/throttle " + s + "\n";
             _sw.WriteLine(toSend);
+            _sw.Flush();
             return ValidSet(s, "Throttle");
         }
 
@@ -89,7 +89,7 @@ namespace FlightMobileWeb.Models
         {
             string toSend = "set " + "/controls/flight/elevator " + s + "\n";
             _sw.WriteLine(toSend);
-            System.Console.WriteLine("after write aileron");
+            _sw.Flush();
             return ValidSet(s, "Elevator");
         }
 
@@ -97,6 +97,7 @@ namespace FlightMobileWeb.Models
         {
             string toSend = "set " + "/controls/flight/aileron " + s + "\n";
             _sw.WriteLine(toSend);
+            _sw.Flush();
             return ValidSet(s, "Aileron");
         }
 
@@ -123,6 +124,7 @@ namespace FlightMobileWeb.Models
                     return Result.NotOk;
             }
             _sw.Write("get " + var + "\n");
+            _sw.Flush();
             string current = _sr.ReadLine();
             if (!Double.TryParse(source, out double d1))
             {
